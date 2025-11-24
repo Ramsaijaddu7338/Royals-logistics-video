@@ -1,30 +1,433 @@
 <!DOCTYPE html>
-<html lang="te">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Royal’s Logistics Driver Safety Video</title>
-<style>
-  * { margin: 0; padding: 0; }
-  html, body {
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
-    background: black;
-  }
-  iframe {
-    width: 100vw;
-    height: 100vh;
-    border: none;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Royal's Logistics – Driver Safety</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg-dark: #020617;
+      --bg-card: rgba(15, 23, 42, 0.96);
+      --accent: #22c55e;
+      --accent-soft: rgba(34, 197, 94, 0.2);
+      --accent-strong: rgba(34, 197, 94, 0.9);
+      --text-main: #e5e7eb;
+      --text-sub: #9ca3af;
+      --border-soft: rgba(148, 163, 184, 0.35);
+      --shadow-strong: 0 22px 45px rgba(0, 0, 0, 0.65);
+      --radius-lg: 22px;
+      --radius-md: 14px;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(56, 189, 248, 0.22), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(34, 197, 94, 0.2), transparent 55%),
+        linear-gradient(135deg, #020617, #020617 40%, #020617);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 520px;
+    }
+
+    .card {
+      position: relative;
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 20px 18px 18px;
+      border: 1px solid var(--border-soft);
+      box-shadow: var(--shadow-strong);
+      overflow: hidden;
+      backdrop-filter: blur(16px);
+    }
+
+    /* Soft glow bar at top */
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top, rgba(34, 197, 94, 0.13), transparent 58%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .card-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .brand-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .logo-wrapper {
+      width: 46px;
+      height: 46px;
+      border-radius: 18px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: radial-gradient(circle at 30% 20%, rgba(248, 250, 252, 0.2), transparent 55%),
+                  #020617;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .logo-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 2px;
+      line-height: 1.1;
+    }
+
+    .brand-name {
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: #f9fafb;
+      white-space: nowrap;
+    }
+
+    .brand-tagline {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.19em;
+      color: var(--text-sub);
+      white-space: nowrap;
+    }
+
+    .status-pill {
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--accent-strong);
+      background: var(--accent-soft);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: #bbf7d0;
+      white-space: nowrap;
+    }
+
+    /* Title area */
+    .title-block {
+      margin-bottom: 12px;
+    }
+
+    .title-line {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    h1 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #f9fafb;
+    }
+
+    .duration-pill {
+      font-size: 11px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      color: var(--text-sub);
+      white-space: nowrap;
+    }
+
+    .subtitle {
+      margin-top: 4px;
+      font-size: 12px;
+      color: var(--text-sub);
+    }
+
+    /* Video wrapper with aspect ratio */
+    .video-shell {
+      position: relative;
+      width: 100%;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.25), transparent 55%),
+                  #020617;
+      margin-top: 12px;
+    }
+
+    .video-shell::before {
+      content: "";
+      display: block;
+      padding-top: 56.25%; /* 16:9 aspect ratio */
+    }
+
+    .video-inner {
+      position: absolute;
+      inset: 0;
+      display: flex;
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    /* Overlays/icons */
+    .overlay-top {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.82);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-sub);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .indicator-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent-strong);
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.9);
+    }
+
+    .overlay-bottom {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 8px 10px 7px;
+      background: linear-gradient(to top, rgba(15, 23, 42, 0.9), transparent);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      font-size: 11px;
+      color: #e5e7eb;
+    }
+
+    .overlay-bottom span {
+      opacity: 0.9;
+    }
+
+    .kbd {
+      font-family: inherit;
+      font-size: 10px;
+      border-radius: 999px;
+      padding: 2px 8px;
+      border: 1px solid rgba(148, 163, 184, 0.9);
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--text-sub);
+    }
+
+    /* Small help / checklist */
+    .help-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+      font-size: 11px;
+      color: var(--text-sub);
+      flex-wrap: wrap;
+    }
+
+    .help-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .help-left strong {
+      color: #e5e7eb;
+      font-weight: 500;
+    }
+
+    .help-right {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .chip {
+      padding: 3px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      font-size: 10px;
+      color: var(--text-sub);
+      white-space: nowrap;
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 12px;
+      padding-top: 8px;
+      border-top: 1px dashed rgba(55, 65, 81, 0.9);
+      font-size: 10px;
+      color: #6b7280;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .footer span {
+      white-space: nowrap;
+    }
+
+    .footer strong {
+      color: #9ca3af;
+      font-weight: 500;
+    }
+
+    @media (max-width: 420px) {
+      .card {
+        padding: 17px 13px 16px;
+      }
+
+      .brand-name {
+        font-size: 14px;
+      }
+
+      .brand-tagline {
+        display: none;
+      }
+
+      h1 {
+        font-size: 16px;
+      }
+
+      .header {
+        flex-direction: row;
+      }
+
+      .duration-pill {
+        font-size: 10px;
+      }
+    }
+  </style>
 </head>
 <body>
+  <div class="page">
+    <main class="card">
+      <div class="card-inner">
+        <!-- HEADER -->
+        <header class="header">
+          <div class="brand-left">
+            <div class="logo-wrapper">
+              <!-- 🔁 Replace "logo.png" with your actual logo file or URL -->
+              <img src="logo.png" alt="Royal's Logistics Logo" class="logo-img" />
+            </div>
+            <div class="brand-text">
+              <div class="brand-name">Royal's Logistics</div>
+              <div class="brand-tagline">Driver safety training</div>
+            </div>
+          </div>
 
-<iframe 
-  src="https://www.youtube.com/embed/8vx3A07MqV4?autoplay=1&mute=1&controls=1&rel=0&playsinline=1&modestbranding=1"
-  allow="autoplay; encrypted-media; fullscreen"
-  allowfullscreen>
-</iframe>
+          <div class="status-pill">
+            SAFETY MANDATORY
+          </div>
+        </header>
 
+        <!-- TITLE -->
+        <section class="title-block">
+          <div class="title-line">
+            <h1>Driver Safety Video</h1>
+            
+          </div>
+          <p class="subtitle">
+            Every driver must watch this video completely <strong>before starting duty.</strong>
+          </p>
+        </section>
+
+        <!-- VIDEO -->
+        <section class="video-section">
+          <div class="video-shell">
+            <div class="video-inner">
+              <video
+                id="safetyVideo"
+                controls
+                playsinline
+              >
+                <!-- 🔁 Replace with your direct video file URL (MP4 recommended) -->
+                <source src="safetyVideo.mp4" type="video/mp4" />
+                Your browser does not support HTML5 video.
+              </video>
+
+              <!-- Overlays -->
+              <div class="overlay-top">
+                <span class="indicator-dot"></span>
+                <span>Now Playing</span>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+       
+
+        <!-- FOOTER -->
+        <footer class="footer">
+          <span><strong>Royal's Logistics</strong></span>
+          <span>www.royalslogistics.org</span>
+        </footer>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Optional: try muted autoplay. If blocked, user can tap Play.
+    window.addEventListener("load", function () {
+      const video = document.getElementById("safetyVideo");
+      if (video) {
+        video.muted = true;
+        video.play().catch(() => {
+          // Autoplay blocked by browser – normal behaviour on mobile
+        });
+      }
+    });
+  </script>
 </body>
 </html>
