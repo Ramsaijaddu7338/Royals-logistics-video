@@ -13,57 +13,98 @@
     }
 
     :root {
-      --bg-dark: #020617;
-      --bg-card: rgba(15, 23, 42, 0.96);
-      --accent: #22c55e;
-      --accent-soft: rgba(34, 197, 94, 0.2);
-      --accent-strong: rgba(34, 197, 94, 0.9);
-      --text-main: #e5e7eb;
-      --text-sub: #9ca3af;
-      --border-soft: rgba(148, 163, 184, 0.35);
-      --shadow-strong: 0 22px 45px rgba(0, 0, 0, 0.65);
-      --radius-lg: 22px;
-      --radius-md: 14px;
+      --bg-dark: #0a0f1e;
+      --bg-card: #121828;
+      --accent: #3b82f6;
+      --accent-gradient: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      --accent-soft: rgba(59, 130, 246, 0.15);
+      --accent-strong: rgba(59, 130, 246, 0.9);
+      --emergency-color: #ef4444;
+      --emergency-gradient: linear-gradient(135deg, #ef4444, #dc2626);
+      --emergency-soft: rgba(239, 68, 68, 0.15);
+      --text-main: #f1f5f9;
+      --text-sub: #94a3b8;
+      --border-soft: rgba(148, 163, 184, 0.25);
+      --shadow-strong: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+      --radius-lg: 24px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
+      --transition: all 0.3s ease;
     }
 
     body {
       min-height: 100vh;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background:
-        radial-gradient(circle at top left, rgba(56, 189, 248, 0.22), transparent 55%),
-        radial-gradient(circle at bottom right, rgba(34, 197, 94, 0.2), transparent 55%),
-        linear-gradient(135deg, #020617, #020617 40%, #020617);
+        radial-gradient(circle at 15% 15%, rgba(59, 130, 246, 0.15), transparent 40%),
+        radial-gradient(circle at 85% 85%, rgba(139, 92, 246, 0.12), transparent 40%),
+        linear-gradient(135deg, var(--bg-dark), #0f172a);
       color: var(--text-main);
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 18px;
+      padding: 20px;
+      line-height: 1.6;
     }
 
     .page {
       width: 100%;
-      max-width: 520px;
+      max-width: 580px;
     }
 
     .card {
       position: relative;
       background: var(--bg-card);
       border-radius: var(--radius-lg);
-      padding: 20px 18px 18px;
+      padding: 28px 24px 24px;
       border: 1px solid var(--border-soft);
       box-shadow: var(--shadow-strong);
       overflow: hidden;
       backdrop-filter: blur(16px);
+      transition: var(--transition);
     }
 
-    /* Soft glow bar at top */
+    .card:hover {
+      box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.8);
+    }
+
+    /* Animated gradient border */
     .card::before {
       content: "";
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at top, rgba(34, 197, 94, 0.13), transparent 58%);
-      opacity: 0.9;
-      pointer-events: none;
+      padding: 2px;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.6), rgba(139, 92, 246, 0.4), rgba(59, 130, 246, 0.6));
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask-composite: exclude;
+      -webkit-mask-composite: xor;
+      opacity: 0.7;
+      z-index: -1;
+    }
+
+    /* Soft glow effect */
+    .card::after {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+      z-index: -1;
+      animation: pulse 8s infinite alternate;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.5;
+      }
+      100% {
+        transform: translate(5%, 5%) scale(1.05);
+        opacity: 0.8;
+      }
     }
 
     .card-inner {
@@ -76,115 +117,159 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 14px;
+      gap: 12px;
+      margin-bottom: 20px;
     }
 
     .brand-left {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 14px;
       min-width: 0;
     }
 
     .logo-wrapper {
-      width: 46px;
-      height: 46px;
+      width: 56px;
+      height: 56px;
       border-radius: 18px;
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      background: radial-gradient(circle at 30% 20%, rgba(248, 250, 252, 0.2), transparent 55%),
-                  #020617;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: linear-gradient(135deg, #1e293b, #0f172a);
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      transition: var(--transition);
+    }
+
+    .logo-wrapper:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
     }
 
     .logo-img {
-      width: 100%;
-      height: 100%;
+      width: 70%;
+      height: 70%;
       object-fit: contain;
+      filter: brightness(1.2);
     }
 
     .brand-text {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      gap: 2px;
-      line-height: 1.1;
+      gap: 4px;
+      line-height: 1.2;
     }
 
     .brand-name {
-      font-size: 15px;
-      font-weight: 600;
+      font-size: 18px;
+      font-weight: 700;
       letter-spacing: 0.02em;
       color: #f9fafb;
       white-space: nowrap;
+      background: linear-gradient(to right, #f1f5f9, #cbd5e1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .brand-tagline {
-      font-size: 11px;
+      font-size: 12px;
       text-transform: uppercase;
-      letter-spacing: 0.19em;
+      letter-spacing: 0.15em;
       color: var(--text-sub);
       white-space: nowrap;
     }
 
     .status-pill {
-      padding: 5px 10px;
+      padding: 8px 16px;
       border-radius: 999px;
       border: 1px solid var(--accent-strong);
       background: var(--accent-soft);
-      font-size: 10px;
+      font-size: 11px;
+      font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: #bbf7d0;
+      letter-spacing: 0.15em;
+      color: #dbeafe;
       white-space: nowrap;
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+      transition: var(--transition);
+    }
+
+    .status-pill:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
     }
 
     /* Title area */
     .title-block {
-      margin-bottom: 12px;
+      margin-bottom: 20px;
+      padding: 16px;
+      background: rgba(15, 23, 42, 0.5);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-soft);
     }
 
     .title-line {
       display: flex;
-      align-items: baseline;
+      align-items: center;
       justify-content: space-between;
-      gap: 8px;
+      gap: 12px;
+      margin-bottom: 8px;
     }
 
     h1 {
-      font-size: 18px;
-      font-weight: 600;
+      font-size: 22px;
+      font-weight: 700;
       color: #f9fafb;
+      background: linear-gradient(to right, #f1f5f9, #cbd5e1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .duration-pill {
-      font-size: 11px;
-      padding: 3px 9px;
+      font-size: 12px;
+      padding: 6px 12px;
       border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.7);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.7);
       color: var(--text-sub);
       white-space: nowrap;
+      font-weight: 500;
     }
 
     .subtitle {
-      margin-top: 4px;
-      font-size: 12px;
+      font-size: 14px;
       color: var(--text-sub);
+      line-height: 1.5;
+    }
+
+    .subtitle strong {
+      color: #e2e8f0;
+      font-weight: 600;
     }
 
     /* Video wrapper with aspect ratio */
+    .video-section {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
     .video-shell {
       position: relative;
       width: 100%;
       border-radius: var(--radius-md);
       overflow: hidden;
-      border: 1px solid rgba(148, 163, 184, 0.8);
+      border: 1px solid rgba(148, 163, 184, 0.3);
       background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.25), transparent 55%),
-                  #020617;
-      margin-top: 12px;
+                  #0f172a;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+      transition: var(--transition);
+    }
+
+    .video-shell:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.5);
     }
 
     .video-shell::before {
@@ -204,32 +289,48 @@
       height: 100%;
       display: block;
       object-fit: cover;
+      border-radius: var(--radius-md);
     }
 
     /* Overlays/icons */
     .overlay-top {
       position: absolute;
-      top: 10px;
-      left: 10px;
-      padding: 4px 9px;
+      top: 12px;
+      left: 12px;
+      padding: 6px 12px;
       border-radius: 999px;
-      background: rgba(15, 23, 42, 0.82);
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      font-size: 10px;
-      letter-spacing: 0.14em;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--text-sub);
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
+      z-index: 2;
     }
 
     .indicator-dot {
-      width: 7px;
-      height: 7px;
+      width: 8px;
+      height: 8px;
       border-radius: 999px;
       background: var(--accent-strong);
-      box-shadow: 0 0 10px rgba(34, 197, 94, 0.9);
+      box-shadow: 0 0 12px rgba(59, 130, 246, 0.9);
+      animation: pulse-dot 2s infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.2);
+        opacity: 0.8;
+      }
     }
 
     .overlay-bottom {
@@ -237,79 +338,193 @@
       left: 0;
       right: 0;
       bottom: 0;
-      padding: 8px 10px 7px;
-      background: linear-gradient(to top, rgba(15, 23, 42, 0.9), transparent);
+      padding: 12px 16px 10px;
+      background: linear-gradient(to top, rgba(15, 23, 42, 0.95), transparent);
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
-      font-size: 11px;
+      font-size: 12px;
       color: #e5e7eb;
+      z-index: 2;
     }
 
     .overlay-bottom span {
       opacity: 0.9;
+      font-weight: 500;
     }
 
     .kbd {
       font-family: inherit;
-      font-size: 10px;
+      font-size: 11px;
       border-radius: 999px;
-      padding: 2px 8px;
-      border: 1px solid rgba(148, 163, 184, 0.9);
+      padding: 4px 10px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
       background: rgba(15, 23, 42, 0.9);
       color: var(--text-sub);
+      font-weight: 600;
     }
 
-    /* Small help / checklist */
-    .help-row {
+    /* Progress section */
+    .progress-section {
+      margin: 20px 0;
+    }
+
+    .progress-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 8px;
-      margin-top: 10px;
+      margin-bottom: 8px;
+    }
+
+    .progress-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: #e2e8f0;
+    }
+
+    .progress-percent {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .progress-bar {
+      height: 8px;
+      background: rgba(15, 23, 42, 0.7);
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--accent-gradient);
+      border-radius: 999px;
+      transition: width 0.5s ease;
+      box-shadow: 0 0 12px rgba(59, 130, 246, 0.5);
+    }
+
+    /* Emergency Contacts Section */
+    .emergency-contacts {
+      margin: 24px 0;
+      padding: 16px;
+      background: rgba(15, 23, 42, 0.6);
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .emergency-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .emergency-icon {
+      width: 24px;
+      height: 24px;
+      background: var(--emergency-gradient);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 12px;
+      box-shadow: 0 0 12px rgba(239, 68, 68, 0.6);
+    }
+
+    .emergency-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fecaca;
+      letter-spacing: 0.05em;
+    }
+
+    .emergency-subtitle {
+      font-size: 12px;
+      color: var(--text-sub);
+      margin-left: 34px;
+      margin-top: -4px;
+      margin-bottom: 12px;
+    }
+
+    .emergency-scroll-container {
+      position: relative;
+      overflow: hidden;
+      height: 60px;
+      border-radius: var(--radius-sm);
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+
+    .emergency-scroll {
+      display: flex;
+      animation: scroll-contacts 10s linear infinite;
+      height: 100%;
+    }
+
+    .emergency-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 20px;
+      min-width: 100%;
+      height: 100%;
+      border-right: 1px dashed rgba(239, 68, 68, 0.2);
+    }
+
+    .emergency-item:last-child {
+      border-right: none;
+    }
+
+    .emergency-number {
+      font-size: 18px;
+      font-weight: 700;
+      color: #fecaca;
+      letter-spacing: 0.05em;
+    }
+
+    .emergency-label {
+      font-size: 13px;
+      color: var(--text-sub);
+    }
+
+    .emergency-note {
+      margin-top: 12px;
       font-size: 11px;
       color: var(--text-sub);
-      flex-wrap: wrap;
+      text-align: center;
+      font-style: italic;
     }
 
-    .help-left {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
+    @keyframes scroll-contacts {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-100%);
+      }
     }
 
-    .help-left strong {
-      color: #e5e7eb;
-      font-weight: 500;
-    }
-
-    .help-right {
-      display: flex;
-      gap: 4px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-
-    .chip {
-      padding: 3px 9px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      font-size: 10px;
-      color: var(--text-sub);
-      white-space: nowrap;
+    /* Pause animation on hover */
+    .emergency-scroll-container:hover .emergency-scroll {
+      animation-play-state: paused;
     }
 
     /* Footer */
     .footer {
-      margin-top: 12px;
-      padding-top: 8px;
-      border-top: 1px dashed rgba(55, 65, 81, 0.9);
-      font-size: 10px;
-      color: #6b7280;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px dashed rgba(55, 65, 81, 0.7);
+      font-size: 12px;
+      color: var(--text-sub);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 8px;
+      gap: 12px;
       flex-wrap: wrap;
     }
 
@@ -318,17 +533,33 @@
     }
 
     .footer strong {
-      color: #9ca3af;
-      font-weight: 500;
+      color: #cbd5e1;
+      font-weight: 600;
     }
 
-    @media (max-width: 420px) {
+    .footer-links {
+      display: flex;
+      gap: 16px;
+    }
+
+    .footer-link {
+      color: var(--text-sub);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .footer-link:hover {
+      color: var(--accent);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 480px) {
       .card {
-        padding: 17px 13px 16px;
+        padding: 20px 16px 16px;
       }
 
       .brand-name {
-        font-size: 14px;
+        font-size: 16px;
       }
 
       .brand-tagline {
@@ -336,7 +567,7 @@
       }
 
       h1 {
-        font-size: 16px;
+        font-size: 18px;
       }
 
       .header {
@@ -344,7 +575,25 @@
       }
 
       .duration-pill {
-        font-size: 10px;
+        font-size: 11px;
+      }
+
+      .emergency-item {
+        padding: 12px 16px;
+      }
+
+      .emergency-number {
+        font-size: 16px;
+      }
+
+      .footer {
+        flex-direction: column;
+        text-align: center;
+        gap: 8px;
+      }
+
+      .footer-links {
+        justify-content: center;
       }
     }
   </style>
@@ -357,7 +606,7 @@
         <header class="header">
           <div class="brand-left">
             <div class="logo-wrapper">
-              <!-- 🔁 Replace "logo.png" with your actual logo file or URL -->
+              <!-- Replace "logo.png" with your actual logo file or URL -->
               <img src="logo.png" alt="Royal's Logistics Logo" class="logo-img" />
             </div>
             <div class="brand-text">
@@ -378,7 +627,7 @@
             
           </div>
           <p class="subtitle">
-            Every driver must watch this video completely <strong>before starting duty.</strong>
+            Every driver must watch this video completely <strong>before starting duty.</strong> Completion is tracked and required for payroll.
           </p>
         </section>
 
@@ -390,8 +639,9 @@
                 id="safetyVideo"
                 controls
                 playsinline
+                poster="royals_safety_thumbnail.jpg"
               >
-                <!-- 🔁 Replace with your direct video file URL (MP4 recommended) -->
+                <!-- Replace with your direct video file URL (MP4 recommended) -->
                 <source src="safetyVideo.mp4" type="video/mp4" />
                 Your browser does not support HTML5 video.
               </video>
@@ -402,16 +652,63 @@
                 <span>Now Playing</span>
               </div>
 
+              <div class="overlay-bottom">
+                <span>Driver Safety Protocol</span>
+                
+              </div>
             </div>
           </div>
         </section>
 
-       
+        <!-- PROGRESS -->
+        <section class="progress-section">
+          <div class="progress-header">
+            <div class="progress-label">Training Progress</div>
+            <div class="progress-percent">0%</div>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+        </section>
+
+        <!-- EMERGENCY CONTACTS -->
+        <section class="emergency-contacts">
+          <div class="emergency-header">
+            <div class="emergency-icon">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2ZM12 11.5C10.62 11.5 9.5 10.38 9.5 9C9.5 7.62 10.62 6.5 12 6.5C13.38 6.5 14.5 7.62 14.5 9C14.5 10.38 13.38 11.5 12 11.5Z" fill="currentColor"/>
+              </svg>
+            </div>
+            <div class="emergency-title">EMERGENCY CONTACTS</div>
+          </div>
+          <p class="emergency-subtitle">In case of any emergency, contact these numbers immediately</p>
+          
+          <div class="emergency-scroll-container">
+            <div class="emergency-scroll">
+              <div class="emergency-item">
+                <div class="emergency-number">+91 72076 21919</div>
+                <div class="emergency-label">QNITY TEAM NUMBER</div>
+              </div>
+              <div class="emergency-item">
+                <div class="emergency-number">+91 9908210888</div>
+                <div class="emergency-label">ROYAL'S LOGISTICS TEAM NUMBER</div>
+              </div>
+              
+            </div>
+          </div>
+          
+          <p class="emergency-note">• Available 24/7</p>
+        </section>
 
         <!-- FOOTER -->
         <footer class="footer">
           <span><strong>Royal's Logistics</strong></span>
-          <span>www.royalslogistics.org</span>
+          <div class="footer-links">
+            <a href="#" class="footer-link">Safety Portal</a>
+            <a href="#" class="footer-link">Resources</a>
+            <a href="#" class="footer-link">Support</a>
+          </div>
+          <a href="https://www.royalslogistics.org" target="_blank" rel="noopener noreferrer" style="color: white; text-decoration: none;">www.royalslogistics.org</a>
         </footer>
       </div>
     </main>
@@ -421,10 +718,20 @@
     // Optional: try muted autoplay. If blocked, user can tap Play.
     window.addEventListener("load", function () {
       const video = document.getElementById("safetyVideo");
+      const progressFill = document.getElementById("progressFill");
+      const progressPercent = document.querySelector(".progress-percent");
+      
       if (video) {
         video.muted = true;
         video.play().catch(() => {
           // Autoplay blocked by browser – normal behaviour on mobile
+        });
+        
+        // Update progress as video plays
+        video.addEventListener("timeupdate", function() {
+          const percent = (video.currentTime / video.duration) * 100;
+          progressFill.style.width = percent + "%";
+          progressPercent.textContent = Math.round(percent) + "%";
         });
       }
     });
